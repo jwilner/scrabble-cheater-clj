@@ -13,26 +13,13 @@
              \Y 4, \Z 10})
 
 (def match-test [rack word wcs]
-  (loop [wcs-available wcs
-         letters-available (seq rack)
-         unhandled-letters (seq word)]
-    (let [enough-wildcards (neg? wcs-available) 
-          c (first unhandled-letters)] 
+  (let [enough-wildcards (neg? wcs) 
+        c (first word)] 
         (if (or (nil? c) 
                 (not (enough-wildcards)))
           enough-wildcards
-          (if (contains? letters-available c)
-            (recur 
-              wcs-necessary
-              (remove letters-available c)
-              (rest unhandled-letters))
-            (recur 
-              (inc wcs-necessary)
-              letters-available
-              (rest unhandled-letters)))))))
-
-
-
+          (if   
+          
 
 (defn -main
   "I don't do a whole lot ... yet."
