@@ -14,7 +14,8 @@
 (def letters-scores [["CAB" 7]
                      ["CHEATER" 12]])
 
-(def letter-intersection [["" 0 "A" nil]
+(def letter-intersections [["" 0 "A" nil]
+                          ["" 1 "A" []]
                           ["A" 0 "B" nil]
                           ["A" 0 "" []]
                           ["A" 1 "B" []]
@@ -26,7 +27,17 @@
                           ["A" 7 "LITERALLY" nil]
                           ["ACHIR" 1 "CHAIR" [\C \H \A \I \R]]
                           ["ACHIS" 1 "CHAIRS" [\C \H \A \I \S]]
-                          ["ACHIS" 0 "CHAIRS" nil])
+                          ["ACHIS" 0 "CHAIRS" nil]])
+
+(deftest letter-intersection-test
+  (testing
+    ""
+    (dorun (map (partial apply #(is (= (letter-intersection (seq %1) 
+                                                            %2 
+                                                            (seq %3))
+                                       %4)))
+                letter-intersections))))
+
 
 (deftest match-test
   (testing

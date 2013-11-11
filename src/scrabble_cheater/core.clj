@@ -49,17 +49,27 @@
   nil if unable to use wildcards, else returns list of present letters
   ready for scoring."
   [rack num-wcs word]
-  (loop [letter (first word)
-         word-remaining (rest word)
+  (loop [word-remaining word
          rack-remaining rack 
          remaining-wcs num-wcs
          intersected []]
-    (cond (nil? letter) intersected
-          (some #{letter}
-                rack-remaining) (recur )
-          (
-
-
+    (let [letter (first word-remaining)]
+      (cond (nil? letter) intersected
+            ;; if letter in rack
+            (some #{letter}
+                  rack-remaining) (recur (rest word-remaining)
+                                         (remove-first letter 
+                                                       rack-remaining)
+                                         remaining-wcs
+                                         (conj intersected 
+                                               letter))
+            ;; letter not in rack, so check wcs
+            (pos? remaining-wcs) (recur (rest word-remaining)
+                                        rack-remaining
+                                        (dec remaining-wcs)
+                                        intersected)
+            ;; no letter or wcs so
+            :else nil))))
 
 (defn score-letters [letters]
   (reduce + 
@@ -77,7 +87,7 @@
   [list-of-words rack]
   (let [[num-wcs tame-rack] ((juxt #(count (filter %1 %2))
                                    remove) 
-                             #{wildcard} rack))
+                             #{wildcard} rack)
         matches (filter (partial match? 
                                  rack 
                                  num-wcs)
