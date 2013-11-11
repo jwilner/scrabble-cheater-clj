@@ -50,25 +50,21 @@
   ready for scoring."
   [rack num-wcs word]
   (loop [letter (first word)
-         remaining rack 
+         word-remaining (rest word)
+         rack-remaining rack 
          remaining-wcs num-wcs
          intersected []]
-    (if (nil? letter)
-      intersected
-      (if (some #{letter} rack)
-        (recur (remove-first character 
-                            rack)
-              num-wcs
-              (rest word))
-        (if (pos? num-wcs)
-          (recur rack
-                (dec num-wcs)
-                (rest word))
-          nil)))))
+    (cond (nil? letter) intersected
+          (some #{letter}
+                rack-remaining) (recur )
+          (
+
 
 
 (defn score-letters [letters]
-  (reduce + (map scores letters)))
+  (reduce + 
+          (map scores 
+               letters)))
 
 (defn open-dictionary [dictionary-path]
   (with-open [rdr (clojure.java.io/reader dictionary-path)]
