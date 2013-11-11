@@ -84,22 +84,21 @@
   pairs words in tuples with their scores, and then sorts on those scores 
   in descending order."
   [rack list-of-words]
-  (time 
-    (let [max-length (count rack)
-          [num-wcs tame-rack] ((juxt #(count (filter %1 %2))
-                                    remove) 
-                                #{wildcard} rack) ;; because I can...
-          matches-scores (for [word (filter #(<= (count %) max-length)
-                                            list-of-words)
-                                    ;; don't bother looking at longer words
-                                :let [matched-letters (letter-intersection tame-rack
-                                                                          num-wcs
-                                                                          (seq word))]
-                                :when matched-letters] ;; returns nil when no match
-                              [word (score-letters matched-letters)])]
-        (sort-by second 
-                >
-                matches-scores))))
+  (let [max-length (count rack)
+        [num-wcs tame-rack] ((juxt #(count (filter %1 %2))
+                                   remove) 
+                               #{wildcard} rack) ;; because I can...
+        matches-scores (for [word (filter #(<= (count %) max-length)
+                                          list-of-words)
+                                   ;; don't bother looking at longer words
+                              :let [matched-letters (letter-intersection tame-rack
+                                                                         num-wcs
+                                                                         (seq word))]
+                              :when matched-letters] ;; returns nil when no match
+                            [word (score-letters matched-letters)])]
+      (sort-by second 
+               >
+               matches-scores)))
 
 
 (defn -main
