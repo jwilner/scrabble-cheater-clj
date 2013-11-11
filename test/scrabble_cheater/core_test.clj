@@ -32,10 +32,11 @@
 (deftest letter-intersection-test
   (testing
     ""
-    (dorun (map (partial apply #(is (= (letter-intersection (seq %1) 
-                                                            %2 
-                                                            (seq %3))
-                                       %4)))
+    (dorun (map (partial apply 
+                         #(is (= (letter-intersection (seq %1) 
+                                                      %2 
+                                                      (seq %3))
+                                  %4)))
                 letter-intersections))))
 
 
